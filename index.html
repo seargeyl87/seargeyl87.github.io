@@ -1,0 +1,242 @@
+<style>
+	
+#inp {
+
+  width: 70%;
+  padding: 5px;
+
+}
+
+#btn {
+  background-color: green;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 3px 15px;
+  margin: 5px;
+  display: block;
+}
+
+#content {
+
+  font-size: 30px;
+  text-transform: uppercase;
+
+}
+
+i {
+  color: red;
+  font-weight: bold;
+}
+</style>
+
+<input id="inp" value="Лапутько Людмила Александровна">  
+<br>
+<input type="date" id="date">
+<select id="partOfTheDay">
+	<option>Утро</option>
+	<option>День</option>
+	<option>Вечер</option>
+	<option>Ночь</option>
+</select>
+
+<button id="btn">Начать</button>
+
+<div id="content"></div>
+
+<div id="result"></div>
+
+
+
+
+
+<script>
+var INTERVAL = 800;
+
+var mainString = '';
+
+function start() {
+	runIteration(mainString);
+}
+
+function update() {
+	var date = document.getElementById("date").valueAsDate ;
+	var month = date.getMonth();
+	  var day = date.getDate();
+	  var dayWeek = date.getDay();
+  var mode = document.getElementById("partOfTheDay").value;
+	mainString =  document.getElementById('inp').value + ' ' + getDay(day) + ' ' + getMonth(month) + ' ' + getDayWeek(dayWeek) + ' ' +  mode;
+	document.getElementById('content').innerHTML = mainString;
+}
+
+(function() { 
+
+	var date = new Date();
+  
+  date.setDate(date.getDate() + 1);
+  document.getElementById("date").valueAsDate = date;
+  
+  update();
+  
+  document.getElementById('btn').addEventListener("click", start);
+  document.getElementById("date").addEventListener('change', function() {
+  
+	update();
+  
+  });
+  
+  document.getElementById("inp").addEventListener('change', function() {
+  
+	update();
+  
+  });
+  
+  document.getElementById("partOfTheDay").onchange = function(){
+    update();
+ };
+  
+})()
+
+  
+function runIteration(str) {
+
+		setTimeout(function() {
+  
+  	var iteratedStrObj = iterate(str);
+    
+  	if(iteratedStrObj && iteratedStrObj.str) { 
+			document.getElementById('content').innerHTML = iteratedStrObj.str;
+      
+      runIteration(iteratedStrObj.result);
+    } 
+    else {
+    
+    	setTimeout(function() { 
+       
+				document.getElementById('content').innerHTML = str;
+      
+      	document.getElementById('result').innerHTML = str.split('').filter(x => x != ' ').length;
+      
+      }, INTERVAL);
+    }
+    
+    
+  },  INTERVAL);
+
+}
+
+
+function iterate(str) {
+
+	for(var i = 0; i < str.length - 1; i++) {
+  
+  	if(str[i] == ' ') {
+    	continue;
+    }
+  
+  	for(var j = i + 1; j < str.length; j++) {
+  
+  		if(str[i] == str[j]) {
+      
+      	return {
+        	result: ( str.substring(0, i) + str.substring(i + 1, j) +  str.substring(j+1, str.length)  ),
+        	str: ( str.substring(0, i) + '<i>' + str[i]  + '</i>' +  str.substring(i + 1, j) + '<i>' + str[i]  + '</i>' + str.substring(j+1, str.length)  )
+        };
+      }
+  	}
+}
+
+
+ 
+}
+
+function getMode(mode) {
+switch(mode) {
+  
+  	case 0 : return 'утро';
+  	case 1 : return 'день';
+  	case 2 : return 'вечер';
+  	case 3 : return 'ночь';
+  }
+
+}
+
+function getMonth(month) {
+
+	switch(month) {
+  
+  	case 0 : return 'января';
+  	case 1 : return 'февраля';
+  	case 2 : return 'марта';
+  	case 3 : return 'апреля';
+  	case 4 : return 'мая';
+  	case 5 : return 'июня';
+  	case 6 : return 'июля';
+  	case 7 : return 'августа';
+  	case 8 : return 'сентября';
+  	case 9 : return 'октября';
+  	case 10 : return 'ноября';
+  	case 11 : return 'декабря';
+  }
+
+}
+
+function getDayWeek(day) {
+
+	switch(day) {
+  
+  	case 1 : return 'понедельник';
+  	case 2 : return 'вторник';
+  	case 3 : return 'среда';
+  	case 4 : return 'четверг';
+  	case 5 : return 'пятница';
+  	case 6 : return 'суббота';
+  	case 0 : return 'воскресенье';
+  }
+}
+
+function getDay(day) {
+
+	switch(day) {
+  
+  	case 1 : return 'первое';
+  	case 2 : return 'второе';
+  	case 3 : return 'третье';
+  	case 4 : return 'четвертое';
+  	case 5 : return 'пятое';
+  	case 6 : return 'шестое';
+  	case 7 : return 'седьмое';
+  	case 8 : return 'восьмое';
+  	case 9 : return 'девятое';
+  	case 10 : return 'десятое';
+  	case 11 : return 'одиннадцатое';
+  	case 12 : return 'двенадцатое';
+  	case 13 : return 'тринадцатое';
+  	case 14 : return 'четырнадцатое';
+  	case 15 : return 'пятнадцатое';
+  	case 16 : return 'шестнадцатое';
+  	case 17 : return 'семнадцатое';
+  	case 18 : return 'восемнадцатое';
+  	case 19 : return 'девятнадцатое';
+  	case 20 : return 'двадцатое';
+  	case 21 : return 'двадцать первое';
+  	case 22 : return 'двадцать второе';
+  	case 23 : return 'двадцать третье';
+  	case 24 : return 'двадцать четвертое';
+  	case 25 : return 'двадцать пятое';
+  	case 26 : return 'двадцать шестое';
+  	case 27 : return 'двадцать седьмое';
+  	case 28 : return 'двадцать восьмое';
+  	case 29 : return 'двадцать девятое';
+  	case 30 : return 'тридцатое';
+  	case 31 : return 'тридцать первое';
+  }
+}
+
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+</script>
